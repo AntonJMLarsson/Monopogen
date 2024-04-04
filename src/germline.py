@@ -202,7 +202,9 @@ def BamFilter(myargs):
 		if s.has_tag("NM"):
 			val= s.get_tag("NM")
 		if s.has_tag("nM"):
-			val= s.get_tag("nM")                  
+			val= s.get_tag("nM")
+		if s.has_tag("MD"):
+			val= (sum([len(item) for item in re.split('[0-9^]', s.get_tag("MD"))]) + sum([item[1] for item in s.cigartuples if item[0] == 1]))          
 		if val < max_mismatch:
 			outfile.write(s)
 	infile.close()

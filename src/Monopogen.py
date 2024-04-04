@@ -140,7 +140,7 @@ def somatic(args):
 		for line in f_in:
 			record = line.strip().split(",")
 			if(len(record)==1):
-			 	region = record[0]
+				region = record[0]
 			if(len(record)==3):
 				region = record[0] + ":" + record[1] + "-" + record[2]
 			chr_lst.append(record[0])
@@ -165,7 +165,7 @@ def somatic(args):
 		chr_lst = sort_chr(chr_lst)
 		joblst = []
 		for id in chr_lst:
-			joblst.append(id+">"+args.out+">"+args.reference+">"+args.barcode)
+			joblst.append(id+">"+args.out+">"+args.reference+">"+args.barcode+">"+args.cell_tag)
 		with Pool(processes=args.nthreads) as pool:
 			result = pool.map(bam2mat, joblst)
 		error_check(all = chr_lst, output = result, step = "cellScan")
@@ -302,6 +302,8 @@ def main():
 								help="Run germline variant calling step by step")
 	parser_somatic.add_argument('-g', '--reference', required= True, 
 								help="The human genome reference used for alignment")
+	parser_somatic.add_argument('-c', '--cell-tag', required=False, type=str, default='CB', 
+								help="The bam file tag with cell barcode")
 	parser_somatic.set_defaults(func=somatic)
 
 	args = parser.parse_args()

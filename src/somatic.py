@@ -369,6 +369,7 @@ def bam2gz(para):
 		in_bam = para_lst[1] + "/Bam/" + para_lst[0] + ".filter.targeted.bam"
 		in_fasta = para_lst[2]
 		in_cell_barcode = para_lst[3]
+		cell_tag = para_lst[4]
 
 		# read cell barcode file 
 
@@ -428,7 +429,7 @@ def bam2gz(para):
 		# fp = open(para_lst[1] + "/somatic/" + para_lst[0] + ".cell_snv.mat", "wt")
 		for s in infile:
 
-			cell_barcode  = robust_get_tag(s,"CB")
+			cell_barcode  = robust_get_tag(s,cell_tag)
 			if cell_barcode=="NotFound":
 				### no cell barcode file detected.
 				### check whether the barcode added in the query name 	
